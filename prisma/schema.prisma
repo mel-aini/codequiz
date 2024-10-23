@@ -77,10 +77,11 @@ model Subscription {
   user             User     @relation(fields: [userId], references: [id])
   topicId          String
   topic            Topic    @relation(fields: [topicId], references: [id])
-  difficulty       Difficulty
+  difficulty       Difficulty @default(BEGINNER)
+  isComplete       Boolean  @default(false)
 //   lastQuestionId   String?
 //   lastQuestion     Question @relation(fields: [lastQuestionId], references: [id])
-  questionNumber   Int      
+  questionNumber   Int      @default(1)
   totalQuestions   Int      @default(5)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
