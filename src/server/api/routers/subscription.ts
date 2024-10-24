@@ -29,20 +29,26 @@ function getNextQuestionNumber(sub: Subscription): number {
 export const subscriptionRouter = createTRPCRouter({
   get: protectedProcedure
     .query(async ({ ctx }) => {
-        return await ctx.db.subscription.findMany();
-    }),
-
-    getLatest: protectedProcedure
-    .query(async ({ ctx }) => {
         return await ctx.db.subscription.findMany({
-            orderBy: { updatedAt: 'asc' },
-            take: 3
+            orderBy: { updatedAt: 'desc' },
+            where: {
+                userId: ctx.session.user.id
+            }
         });
     }),
 
   create: protectedProcedure
-    .input(z.object({ userId: z.string(), topicId: z.string() }))
+    .input(z.object({ topicId: z.string() }))
     .mutation(async ({ ctx, input }) => {
+        const sub = await ctx.db.subscription.findFirst({
+            where: {
+                topicId: input.topicId,
+                userId: ctx.session.user.id
+            }
+        })
+    
+        if (sub) return sub
+    
         return await ctx.db.subscription.create({
         data: {
             userId: ctx.session.user.id,

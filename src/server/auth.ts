@@ -6,12 +6,7 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 
-import { env } from "@/env";
 import { db } from "@/server/db";
-
-import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google";
-import GithubProvider from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -54,26 +49,7 @@ export const authOptions: NextAuthOptions = {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    }),
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-          email: { 
-              label: "email", 
-              type: "email", 
-              placeholder: "email" 
-          },
-          password: { 
-              label: "Password", 
-              type: "password",
-              placeholder: "password" 
-          }
-      },
-      async authorize(credentials) {
-          // check user is there and return it
-          return { id: 'user._id', name: 'user.username' };
-      },
-  })
+    })
     /**
      * ...add more providers here.
      *

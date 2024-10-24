@@ -13,29 +13,32 @@ export const topicRouter = createTRPCRouter({
       return topics ?? null
     }),
 
-//   getTop: protectedProcedure
-//     .query(async ({ ctx }) => {
-//         const post = await ctx.db.post.findFirst({
-//             orderBy: { createdAt: "desc" },
-//             where: { createdBy: { id: ctx.session.user.id } },
-//         });
-//         return post ?? null;
-//   }),
+  getOne: protectedProcedure
+    .input(z.object({id: z.string()}))
+    .query(async ({ ctx, input }) => {
+        const post = await ctx.db.topic.findFirst({
+            where: { 
+              id: input.id 
+            },
+        });
+        return post ?? null;
+  }),
 
   create: protectedProcedure
-    .input(z.object({ name: z.string(), text: z.string(), image: z.string() }))
+    .input(z.object({ name: z.string(), text: z.string(), image: z.string(), brandColor: z.string() }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.topic.create({
         data: {
           name: input.name,
           text: input.text,
-          image: input.image
+          image: input.image,
+          brandColor: input.brandColor
         },
       });
     }),
 
   update: protectedProcedure
-   .input(z.object({ name: z.string(), text: z.string(), image: z.string(), newName: z.string() }))
+   .input(z.object({ name: z.string(), text: z.string(), image: z.string(), brandColor: z.string(), newName: z.string() }))
    .mutation(async ({ ctx, input }) => {
       return ctx.db.topic.update({
         where: {
@@ -44,7 +47,8 @@ export const topicRouter = createTRPCRouter({
         data: {
           name: input.newName,
           text: input.text,
-          image: input.image
+          image: input.image,
+          brandColor: input.brandColor
         },
       });
   }),

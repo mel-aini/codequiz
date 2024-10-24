@@ -66,6 +66,7 @@ model Topic {
   name           String      @unique
   image          String
   text           String
+  brandColor     String
   createdAt      DateTime @default(now())
   subscriptions  Subscription[] @ignore
   Questions      Question[] @ignore
@@ -95,13 +96,14 @@ enum Difficulty {
 
 model Question {
   id             String        @id @default(cuid())
-  text           String     
-  type           QuestionType 
+  question       String     
+  type           QuestionType  @default(MULTI_CHOICE)
   difficulty     Difficulty
   topicId        String
   topic          Topic      @relation(fields: [topicId], references: [id])
-  options        Option[]
-  correctAnswer  String     
+  options        String[]
+  correctAnswer  Int
+  explanation    String     
   createdAt      DateTime   @default(now())
 }
 
@@ -110,9 +112,9 @@ enum QuestionType {
   INPUT_BASED
 }
 
-model Option {
-  id           String      @id @default(cuid())
-  text         String   
-  questionId   String
-  question     Question @relation(fields: [questionId], references: [id])
-}
+// model Option {
+//   id           String      @id @default(cuid())
+//   text         String   
+//   questionId   String
+//   question     Question @relation(fields: [questionId], references: [id])
+// }
