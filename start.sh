@@ -53,3 +53,13 @@ docker run -d \
   -e POSTGRES_DB=quiz-generator-app \
   -p "$DB_PORT":5432 \
   docker.io/postgres && echo "Database container '$DB_CONTAINER_NAME' was successfully created"
+
+npm i
+
+npm run build
+
+npm run db:migrate
+
+npm run seed
+
+npm run start
