@@ -2,7 +2,7 @@
 
 import { OPTIONS, useGlobalContext } from "@/app/_contexts/store";
 import { api } from "@/trpc/react";
-import { Question } from "@prisma/client";
+// import { TQuestion } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Modal from "./ui/modal";
@@ -11,19 +11,22 @@ import Badge from "./badge";
 import Button from "./custom-button";
 import TopicCompleted from "@/app/(root)/dashboard/components/topic-completed";
 import { useRouter } from "next/navigation";
-  
+import { Question } from "@prisma/client";
+
+type TQuestion = Question & {
+    options: string[]
+}
   
 function QuizModal() {
     const { state, dispatch } = useGlobalContext();
     const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-    const [question, setQuestion] = useState<Question | null>(null)
+    const [question, setQuestion] = useState<TQuestion | null>(null)
     const mutation = api.subscription.update.useMutation();
     const questionMutation = api.question.create.useMutation();
     const [isCorrect, setIsCorrect] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
     const router = useRouter();
     
-    // const as = api.question.get({id})
     function reset() {
        setQuestion(null);
        setSelectedAnswer(null);
@@ -43,7 +46,8 @@ function QuizModal() {
                 type: OPTIONS.IS_QUIZ_OPEN, 
                 state: true, 
                 topic: mutation.data, 
-                bg: state.topicBgColor
+                bg: state.topicBgColor,
+                image: state.topicImage
             })
             if (mutation.data?.isComplete) {
                 setIsComplete(true);
@@ -73,15 +77,19 @@ function QuizModal() {
         if (questionMutation.isSuccess) {
 
             if (!questionMutation.data) return;
-        
-            const Q = JSON.parse(questionMutation.data);
-            console.log('correctAnswer: ', Q.correctAnswer);
-            setQuestion(Q)
+            try {
+                console.log(questionMutation.data)
+                // const generatedQuesion = JSON.parse(questionMutation.data);
+                // console.log('correctAnswer: ', generatedQuesion.correctAnswer);
+                setQuestion(questionMutation.data as TQuestion)
+                
+            } catch (error) {
+                console.log()
+            }
         }
     }, [questionMutation.isSuccess])
 
     function submitAnswer() {
-        console.log(selectedAnswer, isCorrect)
         if (selectedAnswer == null || !isCorrect) return;
         mutation.mutate({id: state.activeSubscription?.id || ''})
         reset();
@@ -99,7 +107,7 @@ function QuizModal() {
 
     return ( 
         <Modal isOpen={state.isQuizOpen} onClose={closeModal}>
-            <div className="w-screen max-w-[600px] pb-10 overflow-hidden border-none rounded-md bg-white">
+            <div className="w-screen max-w-[600px] min-h-[200px] pb-10 overflow-hidden border-none rounded-md bg-white">
                 {isComplete && <TopicCompleted close={closeModal} />}
                 {!isComplete && (!question || questionMutation.isPending) && <QuizModalSkeleton />}
                 {(!isComplete && question && !questionMutation.isPending) && <>
@@ -111,7 +119,7 @@ function QuizModal() {
                         <div className="relative -mt-20 flex items-center justify-center text-center bg-white border shadow-md w-3/4 min-h-[150px] px-10 pb-10 pt-16 rounded-xl">
                             <div className="absolute top-0 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[50px] h-[70px]">
                                 <div className="relative h-full w-full">
-                                    <Image fill alt="" src={'/html.png'} style={{objectFit: 'contain'}} />
+                                    <Image fill alt="" src={state.topicImage} style={{objectFit: 'contain'}} />
                                 </div>
                             </div>
                             <p>{question?.question}</p>

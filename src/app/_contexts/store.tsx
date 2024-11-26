@@ -11,12 +11,14 @@ export interface GlobalStateProps {
 	isQuizOpen: boolean
     activeSubscription: Subscription | null
     topicBgColor: string
+	topicImage: string
 }
 
 const initialState: GlobalStateProps = {
     isQuizOpen: false,
     activeSubscription: null,
-    topicBgColor: ''
+    topicBgColor: '',
+	topicImage: ''
 };
 
 export const GlobalContext = createContext<{state: GlobalStateProps, dispatch: Dispatch<any>}>({
@@ -31,7 +33,8 @@ const reducer = (state: GlobalStateProps, action: any) => {
             return {
                 isQuizOpen: action.state,
                 activeSubscription: action.state ? action.topic : null,
-                topicBgColor: action.bg
+                topicBgColor: action.bg,
+				topicImage: action.image
             }
 		default:
 			return state;

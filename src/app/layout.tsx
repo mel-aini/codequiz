@@ -2,13 +2,16 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
-import { DM_Sans } from '@next/font/google';
+import { Inter } from 'next/font/google';
 import GlobalContextProvider from "./_contexts/store";
+import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false; // Disable auto-adding CSS
 
-const dmSans = DM_Sans({
-  weight: ['400', '500', '700'],
+const dmSans = Inter({
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ['latin'],
-  variable: '--font-dm-sans'
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {

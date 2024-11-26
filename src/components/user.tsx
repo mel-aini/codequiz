@@ -10,10 +10,15 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 
 function User({img}: {img: string}) {
+
+    const signOutHandler = () => {
+        signOut({ callbackUrl: '/' })
+    }
+    
     return (
         <>
             <DropdownMenu>
@@ -26,9 +31,7 @@ function User({img}: {img: string}) {
                 <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <Link href={'/api/auth/signout'}>
-                        <DropdownMenuItem className="cursor-pointer">Logout</DropdownMenuItem>
-                    </Link>
+                    <DropdownMenuItem onClick={signOutHandler} className="cursor-pointer">Logout</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

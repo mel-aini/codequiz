@@ -101,7 +101,8 @@ model Question {
   difficulty     Difficulty
   topicId        String
   topic          Topic      @relation(fields: [topicId], references: [id])
-  options        String[]
+  options        Option[]
+  questionNumber Int      @default(1)
   correctAnswer  Int
   explanation    String     
   createdAt      DateTime   @default(now())
@@ -112,9 +113,9 @@ enum QuestionType {
   INPUT_BASED
 }
 
-// model Option {
-//   id           String      @id @default(cuid())
-//   text         String   
-//   questionId   String
-//   question     Question @relation(fields: [questionId], references: [id])
-// }
+model Option {
+  id           String      @id @default(cuid())
+  text         String   
+  questionId   String
+  question     Question @relation(fields: [questionId], references: [id])
+}

@@ -17,7 +17,7 @@ interface Input {
 
 function getPrompt(input: Input) {
   return (
-    `Create a multiple-choice programming question for the topic: ${input.topic}.
+    `Create a multiple-choice programming question for the topic: ${input.topic} for an interview.
   this quiz has 3 difficulties: beginner, intermediate and advanced, and each level has ${input.totalQuestions} questions.
   the question number is ${input.questionNumber} from ${input.totalQuestions} questions with the difficulty ${input.difficulty}.
 
@@ -40,7 +40,7 @@ function getPrompt(input: Input) {
   
   Please follow this structure exactly for all questions.
   
-  the response should be in json format like this:
+  Return the following response in plain JSON format, without any extra characters like backticks or code blocks. The JSON should look exactly like this:
   {
     question: string,
     options: string[],
@@ -75,7 +75,51 @@ export const questionRouter = createTRPCRouter({
           totalQuestions: input.totalQuestions,
         });
       
-        const response = await AIchatSession.sendMessage(prompt);
-        return response.response.text().replace(/^```json|```$/g, "");
+        const question = await ctx.db.question.findFirst({
+          where: {
+            difficulty: input.difficulty as Difficulty,
+            topicId: input.topicId,
+            questionNumber: input.questionNumber
+          },
+          include: {
+            options: true,
+          },
+        })
+
+        if (question) {
+          return {
+            ...question,
+            options: question.options.map(opt => opt.text)
+          }
+        } else {
+          const response = await AIchatSession.sendMessage(prompt);
+
+          type GenratedQuestion = {
+            question: string,
+            options: string[],
+            correctAnswer: number,
+            explanation: string
+          }
+
+          const qst: GenratedQuestion = JSON.parse(response.response.text());
+          await ctx.db.question.create({
+            data: {
+              topicId: input.topicId,
+              question: qst.question,
+              difficulty: input.difficulty as Difficulty,
+              correctAnswer: qst.correctAnswer,
+              explanation: qst.explanation,
+              questionNumber: input.questionNumber,
+              options: {
+                createMany: {
+                  data: qst.options.map(optionText => ({
+                    text: optionText || '',
+                  }))
+                }
+              }
+            }
+          })
+          return qst;
+        }
     })
 });

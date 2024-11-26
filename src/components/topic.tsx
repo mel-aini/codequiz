@@ -20,10 +20,11 @@ function Topic({topic, className}: Props) {
                     <TopicTitle>{topic.name}</TopicTitle>
                     <p className='text-white'>{topic.text}</p>
                 </div>
-                <OpenTopic id={topic.id} bgColor={topic.brandColor} />
+                <OpenTopic id={topic.id} bgColor={topic.brandColor} image={topic.image} />
             </div>
             <div className='relative w-1/2 rotate-12'>
-                <Image 
+                <Image
+                    draggable={false}
                     src={topic.image}
                     alt=""
                     fill

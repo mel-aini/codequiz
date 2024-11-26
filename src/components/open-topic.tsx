@@ -8,9 +8,11 @@ import Button from './custom-button';
 interface Props {
     id: string, 
     bgColor: string
+    isComplete?: boolean,
+    image: string
 }
 
-export default function OpenTopic({id, bgColor}: Props) {
+export default function OpenTopic({id, bgColor, isComplete, image}: Props) {
     const newSub = api.subscription.create.useMutation();
     const { dispatch } = useGlobalContext();
 
@@ -24,13 +26,15 @@ export default function OpenTopic({id, bgColor}: Props) {
                 type: OPTIONS.IS_QUIZ_OPEN, 
                 state: true, 
                 topic: newSub.data, 
-                bg: bgColor
+                bg: bgColor,
+                image: image
             })
         }
     }, [newSub.isSuccess])
 
     return (
-        <Button 
+        <Button
+            disabled={isComplete}
             onClick={requestTopic}
             isLoading={newSub.isPending} />
     )
