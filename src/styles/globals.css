@@ -85,3 +85,37 @@
 * {
   font-family: "Inter", sans-serif;
 }
+
+.main {
+  /* background-image: linear-gradient(to top, #fff1eb 0%, #0184FF 100%); */
+
+  /* background: repeating-linear-gradient(
+      to right, transparent, 
+      transparent 50px, 
+      rgba(255, 255, 255, 0.04) 50px, 
+      rgba(255, 255, 255, 0.04) 55px
+    ),
+    repeating-linear-gradient(
+      to bottom, transparent,  
+      transparent 50px, 
+      rgba(255, 255, 255, 0.04) 50px, 
+      rgba(255, 255, 255, 0.04) 55px
+    ),
+    linear-gradient(45deg, rgba(255, 192, 203, 0.143), rgba(135, 207, 235, 0.103)); */
+}
+
+/* .main {
+  background: repeating-linear-gradient(
+      to right, transparent, 
+      transparent 50px, 
+      rgba(0, 0, 0, 0.04) 50px, 
+      rgba(0, 0, 0, 0.04) 55px
+    ),
+    repeating-linear-gradient(
+      to bottom, transparent,  
+      transparent 50px, 
+      rgba(0, 0, 0, 0.04) 50px, 
+      rgba(0, 0, 0, 0.04) 55px
+    ),
+    linear-gradient(45deg, rgba(255, 192, 203, 0.143), rgba(135, 207, 235, 0.103));
+} */

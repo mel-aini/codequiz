@@ -15,7 +15,9 @@ function Badge({className, type, isComplete}: Props) {
             (isComplete ? 'bg-[gold] text-black' : type == 'BEGINNER' ? 'bg-[#E0EC9A]' : 
             type == 'INTERMEDIATE' ? 'bg-[#9AECB3]' :  'bg-[#9ACAEC]'),
              className)}>
-            {isComplete ? 'completed' : type}
+            {isComplete ? 
+                <span>completed</span> : 
+                <span>{type}</span>}
         </span>
      );
 }

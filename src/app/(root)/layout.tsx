@@ -15,7 +15,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerAuthSession();
   if (!session) {
-    redirect('/login')
+    redirect('/')
   }
   return (
     <SidebarProvider>
@@ -28,15 +28,5 @@ export default async function RootLayout({
       </section>
     </main>
   </SidebarProvider>
-      // <SidebarProvider>
-        // <AppSidebar />
-        
-        // <section>
-        //   {/* <SidebarTrigger /> */}
-        //   <Header />
-        //   {children}
-        //   <QuizModal />
-        // </section>
-      // </SidebarProvider>
   );
 }

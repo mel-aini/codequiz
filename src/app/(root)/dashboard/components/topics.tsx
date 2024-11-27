@@ -1,4 +1,3 @@
-import Topic from "@/components/topic";
 import { api } from "@/trpc/server";
 import TopicsData from "./topics-data";
 

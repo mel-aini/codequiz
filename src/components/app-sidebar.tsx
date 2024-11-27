@@ -25,6 +25,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 // This is sample data.
 const data = {
@@ -48,8 +49,9 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: LayoutDashboardIcon,
+      isActive: window.location.pathname.startsWith('/dashboard'),
     },
     {
       title: "Search",
@@ -58,14 +60,15 @@ const data = {
     },
     {
       title: "Topics",
-      url: "#",
+      url: "/topics",
       icon: Home,
-      isActive: true,
+      isActive: window.location.pathname.startsWith('/topics'),
     },
     {
       title: "My Quizzes",
-      url: "#",
+      url: "/quizzes",
       icon: Sparkles,
+      isActive: window.location.pathname.startsWith('/quizzes'),
     }
   ],
   navSecondary: [
@@ -91,8 +94,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        {/* <TeamSwitcher teams={data.teams} /> */}
-        <h1 className="pl-2 font-bold text-2xl">Code Quiz</h1>
+        <Link href={'/'}>
+          <h1 className="cursor-pointer pl-2 font-bold text-2xl text-[#0184FF]">Code Quiz</h1>
+        </Link>
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>

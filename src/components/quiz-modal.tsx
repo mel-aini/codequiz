@@ -113,7 +113,7 @@ function QuizModal() {
                 animate={{opacity: 1, scale: 1}}
                 exit={{opacity: 0, scale: 0.95}}
                 transition={{duration: 0.3}}
-                className="w-screen max-w-[600px] min-h-[200px] pb-10 overflow-hidden border-none rounded-md bg-white">
+                className="w-screen max-w-[600px] h-screen sm:h-auto min-h-[200px] overflow-y-auto pb-10 border-none rounded-md bg-white">
                 {isComplete && <TopicCompleted close={closeModal} />}
                 {!isComplete && (!question || questionMutation.isPending) && <QuizModalSkeleton />}
                 {(!isComplete && question && !questionMutation.isPending) && <>
@@ -121,7 +121,7 @@ function QuizModal() {
                         style={{backgroundColor: state.topicBgColor}}
                         className="h-[150px] rounded-md relative">
                     </div>
-                    <div className="w-full flex justify-center z-10">
+                    <div className="w-full flex justify-center">
                         <div className="relative -mt-20 flex items-center justify-center text-center bg-white border shadow-md w-3/4 min-h-[150px] px-10 pb-10 pt-16 rounded-xl">
                             <div className="absolute top-0 left-1/2 -translate-y-1/2 -translate-x-1/2 size-[70px] bg-white shadow-md rounded-md flex items-center justify-center">
                                 <div className="relative size-[70%]">
@@ -131,7 +131,8 @@ function QuizModal() {
                             <p>{question?.question}</p>
                             <div className="absolute top-0 left-0 w-full flex justify-between items-center p-3">
                                 <Badge type={state.activeSubscription?.difficulty} />
-                                <span className="text-[#002BFF]">Question {state.activeSubscription?.questionNumber}/{state.activeSubscription?.totalQuestions}</span>
+                                <span className="hidden sm:inline text-[#002BFF]">Question {state.activeSubscription?.questionNumber}/{state.activeSubscription?.totalQuestions}</span>
+                                <span className="sm:hidden text-[#002BFF]">{state.activeSubscription?.questionNumber}/{state.activeSubscription?.totalQuestions}</span>
                             </div>
                         </div>
                     </div>
