@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { Navigation, Pagination } from 'swiper/modules';
+import TopicsSkeleton from "./skeletons/topics";
 
 type Data = {
     id: string;
@@ -25,6 +26,7 @@ function TopicsData({data}: {data: Data}) {
 
 	return (
 		<>
+			{!isMounted && <TopicsSkeleton />}
 			{isMounted && <Swiper
 				modules={[Navigation, Pagination]}
 				pagination={{ clickable: true }}
@@ -34,7 +36,7 @@ function TopicsData({data}: {data: Data}) {
 					nextEl: '#next-slide', // Target custom Next button
 				}}
 				breakpoints={{
-					1200: {
+					1280: {
 						slidesPerView: 3,
 						spaceBetween: 20,
 					},

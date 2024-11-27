@@ -11,10 +11,11 @@ async function Subscriptions() {
                 <LastSubscription
                     className="w-full xl:max-w-[450px]" 
                     data={subscriptions[0]} />}
-            <div className="w-full h-full flex flex-col justify-between gap-10">
+            <div
+                className="w-full xl:h-full flex flex-col justify-between gap-10">
                 {subscriptions[1] && 
                     <Subscription
-                        className="h-full" 
+                        className={subscriptions[2] ? "h-full" : 'h-[155px]'} 
                         data={subscriptions[1]} />}
                 {subscriptions[2] && 
                     <Subscription

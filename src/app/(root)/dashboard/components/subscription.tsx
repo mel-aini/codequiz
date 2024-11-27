@@ -7,6 +7,7 @@ import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Subscription as TSubscription } from "@prisma/client";
 import { twMerge } from "tailwind-merge";
+import ProgressBar from "./progress-bar";
 
 interface Props {
     data: TSubscription
@@ -33,11 +34,7 @@ async function Subscription({ data, className }: Props) {
                     </div>
                 </div>
             </div>
-            <div className="relative w-full rounded-full h-3 bg-[#B9B9B9] overflow-hidden">
-                <div
-                    style={{left: `-${100 - (data.questionNumber / data.totalQuestions * 100) }%`}}
-                    className="absolute top-0 w-full rounded-full h-3 bg-[#0084FF]" />
-            </div>
+            <ProgressBar data={data} />
         </div>
     );
 }

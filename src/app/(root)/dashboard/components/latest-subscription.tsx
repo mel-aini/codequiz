@@ -8,6 +8,7 @@ import OpenTopic from "@/components/open-topic";
 import DeleteSubscription from "@/components/delete-subscription";
 import { Subscription } from "@prisma/client";
 import { twMerge } from "tailwind-merge";
+import ProgressCircle from "./progress-circle";
 
 interface Props {
 	data: Subscription
@@ -31,31 +32,12 @@ async function LastSubscription({data, className}: Props) {
 					<DeleteSubscription id={data.id} />
 				</div>
             </div>
-			<div className="flex justify-center relative">
-                 <svg width="200" height="200" viewBox="0 0 250 250" className="circular-progress">
-                     <circle className="bg"></circle>
-                     <circle className="fg"></circle>
-                 </svg>
-				 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500 text-2xl font-medium">{35}%</span>
-             </div>
+			<ProgressCircle data={data} />
 			 <div className="flex">
 				<Badge type={data.difficulty} isComplete={data.isComplete} className="py-2" />
 			 </div>
-            {/* <div className="relative w-full rounded-full h-3 bg-[#B9B9B9] overflow-hidden">
-                <div
-                    style={{left: `-${100 - (data.questionNumber / data.totalQuestions * 100) }%`}}
-                    className="absolute top-0 w-full rounded-full h-3 bg-[#0084FF]" />
-            </div> */}
         </div>
     );
-	// return ( 
-	// 		<div>
-    //             <svg width="250" height="250" viewBox="0 0 250 250" className="circular-progress">
-    //                 <circle className="bg"></circle>
-    //                 <circle className="fg"></circle>
-    //             </svg>
-    //         </div>
-	//  );
 }
 
 export default LastSubscription;

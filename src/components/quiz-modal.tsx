@@ -12,6 +12,7 @@ import Button from "./custom-button";
 import TopicCompleted from "@/app/(root)/dashboard/components/topic-completed";
 import { useRouter } from "next/navigation";
 import { Question } from "@prisma/client";
+import { motion } from 'motion/react'
 
 type TQuestion = Question & {
     options: string[]
@@ -107,7 +108,12 @@ function QuizModal() {
 
     return ( 
         <Modal isOpen={state.isQuizOpen} onClose={closeModal}>
-            <div className="w-screen max-w-[600px] min-h-[200px] pb-10 overflow-hidden border-none rounded-md bg-white">
+            <motion.div
+                initial={{opacity: 0, scale: 0.95}}
+                animate={{opacity: 1, scale: 1}}
+                exit={{opacity: 0, scale: 0.95}}
+                transition={{duration: 0.3}}
+                className="w-screen max-w-[600px] min-h-[200px] pb-10 overflow-hidden border-none rounded-md bg-white">
                 {isComplete && <TopicCompleted close={closeModal} />}
                 {!isComplete && (!question || questionMutation.isPending) && <QuizModalSkeleton />}
                 {(!isComplete && question && !questionMutation.isPending) && <>
@@ -117,8 +123,8 @@ function QuizModal() {
                     </div>
                     <div className="w-full flex justify-center z-10">
                         <div className="relative -mt-20 flex items-center justify-center text-center bg-white border shadow-md w-3/4 min-h-[150px] px-10 pb-10 pt-16 rounded-xl">
-                            <div className="absolute top-0 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[50px] h-[70px]">
-                                <div className="relative h-full w-full">
+                            <div className="absolute top-0 left-1/2 -translate-y-1/2 -translate-x-1/2 size-[70px] bg-white shadow-md rounded-md flex items-center justify-center">
+                                <div className="relative size-[70%]">
                                     <Image fill alt="" src={state.topicImage} style={{objectFit: 'contain'}} />
                                 </div>
                             </div>
@@ -163,7 +169,7 @@ function QuizModal() {
                     </div>
                     </>
                 }
-            </div>
+            </motion.div>
         </Modal>
 
      );
